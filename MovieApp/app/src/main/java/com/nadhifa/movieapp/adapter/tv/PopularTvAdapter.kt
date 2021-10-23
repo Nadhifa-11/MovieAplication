@@ -1,0 +1,41 @@
+package com.nadhifa.movieapp.adapter.tv
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.nadhifa.movieapp.R
+import com.nadhifa.movieapp.model.tv.TvPopularItemResponse
+import kotlinx.android.synthetic.main.item_popular_tv.view.*
+
+class PopularTvAdapter(val listTvPopular: List<TvPopularItemResponse>) :
+    RecyclerView.Adapter<PopularTvAdapter.TvPopularViewHolder>() {
+
+    class TvPopularViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(tvpopular: TvPopularItemResponse) {
+            with(itemView) {
+                Glide.with(context).load(BuildConfig.IMAGE_URL + tvpopular.poster_path)
+                    .into(iv_poster_popular_tv)
+                tv_title_popular_tv.text = tvpopular.name
+                tv_overview_popular_tv.text = tvpopular.overview
+                tv_date_popular_tv.text = tvpopular.first_air_date
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): TvPopularViewHolder {
+        return TvPopularViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_popular_tv, parent, false)
+        )
+    }
+
+    override fun onBindViewHolder(holder: TvPopularViewHolder, position: Int) {
+        holder.bind(listTvPopular.get(position))
+    }
+
+    override fun getItemCount(): Int = listTvPopular.size
+}

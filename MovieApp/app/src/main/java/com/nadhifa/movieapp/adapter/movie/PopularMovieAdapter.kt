@@ -1,0 +1,37 @@
+package com.nadhifa.movieapp.adapter.movie
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.nadhifa.movieapp.R
+import com.nadhifa.movieapp.model.movie.MoviePopularItemResponse
+import kotlinx.android.synthetic.main.item_popular_movie.view.*
+
+class PopularMovieAdapter(var listMoviePopular: List<MoviePopularItemResponse>) :
+    RecyclerView.Adapter<PopularMovieAdapter.MovieViewHolder>() {
+
+    inner class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(moviePopular: MoviePopularItemResponse) {
+            with(itemView)
+            {
+                Glide.with(context).load(BuildConfig.IMAGE_URL + moviePopular.poster_path)
+                    .into(iv_poster_popular_movie)
+                tv_title_popular_movie.text = moviePopular.title
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+        return MovieViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_popular_movie, parent, false)
+        )
+    }
+
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+        holder.bind(listMoviePopular.get(position))
+    }
+
+    override fun getItemCount(): Int = listMoviePopular.size
+}
